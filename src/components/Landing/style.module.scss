@@ -1,5 +1,5 @@
 .landing {
-  height: 100dvh;
+  height: 200dvh;
   width: 100vw;
   background: #f7f7f7;
   display: flex;
@@ -8,8 +8,8 @@
   justify-content: center;
   .canvasContainer {
     flex: 1;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     background: #f1efe7;
     position: relative;
   }
