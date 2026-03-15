@@ -5,6 +5,8 @@ import { useFrame } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { useScroll } from "@react-three/drei";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 
 export default function Cube() {
@@ -20,11 +22,22 @@ export default function Cube() {
         if (groupRef.current) {
             groupRef.current.position.y = scroll.offset * 100;
         }
+    });
+
+    useGSAP(() => {
+        if (!groupRef.current) return;
+
+        gsap.to(groupRef.current.position, {
+
+        });
     })
     
     return (
         <>
-            <group ref={groupRef}>
+            <group ref={groupRef}
+                   onPointerEnter={() => document.body.style.cursor = 'pointer'}
+                   onPointerLeave={() => document.body.style.cursor = 'default'}
+            >
                 <mesh position={[0, 6, 0]}>
                     <planeGeometry args={[2.5, 2]} />
                     <meshBasicMaterial map={img1} />
