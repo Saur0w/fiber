@@ -3,7 +3,7 @@
 import { Canvas } from "@react-three/fiber";
 import { ScrollControls } from "@react-three/drei";
 import { Suspense } from 'react';
-import Obj from "./Cube";
+import Obj from "./Mesh";
 
 export default function Scene() {
     return (
@@ -12,7 +12,7 @@ export default function Scene() {
         >
           <ambientLight intensity={1} />
           <Suspense fallback={null}>
-              <ScrollControls pages={4} damping={0.25} >
+              <ScrollControls pages={10} damping={0.15} infinite>
                   <Obj />
               </ScrollControls>
           </Suspense>
