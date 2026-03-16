@@ -36,6 +36,28 @@ function Meshes() {
         }));
     }, [textures]);
 
+    useFrame(() => {
+        const diff = targetX.current - scrollX.current;
+        // eslint-disable-next-line react-hooks/immutability
+        scrollX.current += diff * 0.1;
+        // eslint-disable-next-line react-hooks/immutability
+        velocity.current = diff;
+
+        if (groupRef.current) {
+            groupRef.current.position.x = scrollX.current * 0.005;
+        }
+
+        materialRef.current.forEach((mat) => {
+            if (mat) {
+                mat.uniforms.uVlocity.value = THREE.MathUtils.lerp(
+                    mat.uniforms.uVeocity.value,
+                    velocity.current,
+                    0.1
+                )
+            }
+        })
+    })
+
     return (
         <group ref={groupRef}>
             {textures.map((_, index) => (
@@ -57,4 +79,10 @@ function Meshes() {
     )
 }
 
-export defaul
+export default function Mesh() {
+    return (
+      <Suspense fallback={null}>
+          <Meshes />
+      </Suspense>
+    );
+}
