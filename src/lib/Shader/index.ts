@@ -8,11 +8,11 @@ export const vertexShader = `
 
     vec4 worldPos = modelMatrix * vec4(position, 1.0);
     
-    vWorldX = worldPos.x;
+    vWorldX = worldPos.x * 0.5;
     float wave = sin(worldPos.x * 0.9) * uVelocity * 0.006;
 
     worldPos.y += wave * 0.5;          
-    worldPos.z += wave * 0.5;   
+    worldPos.z -= wave;   
 
     gl_Position = projectionMatrix * viewMatrix * worldPos;
   }

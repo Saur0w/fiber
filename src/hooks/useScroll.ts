@@ -10,7 +10,7 @@ export function useScroll() {
     useEffect(() => {
         const onWheel = (e: WheelEvent) => {
             e.preventDefault();
-            targetX.current -= e.deltaY * 1.5;
+            targetX.current -= e.deltaY * 1.2;
         };
 
         window.addEventListener("wheel", onWheel, {
