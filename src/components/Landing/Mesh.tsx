@@ -35,7 +35,7 @@ const images: ImageProps[] = [
 
 const PLANE_WIDTH = 2;
 const PLANE_HEIGHT = 1.5;
-const GAP = 0.05;
+const GAP = 0.09;
 
 const ITEM_WIDTH = PLANE_WIDTH + GAP;
 const TOTAL_WIDTH = images.length * ITEM_WIDTH;
