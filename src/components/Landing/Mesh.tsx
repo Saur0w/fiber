@@ -1,11 +1,11 @@
 "use client";
 
-import  { useTexture } from "@react-three/drei";
+import {useTexture} from "@react-three/drei";
 import * as THREE from "three";
-import { vertexShader, fragmentShader } from "@/lib/Shader";
+import {fragmentShader, vertexShader} from "@/lib/Shader";
 import {Suspense, useMemo, useRef} from "react";
-import { useFrame } from "@react-three/fiber";
-import { useScroll } from "@/hooks/useScroll";
+import {useFrame} from "@react-three/fiber";
+import {useScroll} from "@/hooks/useScroll";
 
 interface ImageProps {
     src: string;
@@ -33,14 +33,17 @@ const images: ImageProps[] = [
 
 ];
 
-const PLANE_WIDTH = 2.5;
-const PLANE_HEIGHT = 2;
-const GAP = 0.2;
+const PLANE_WIDTH = 2;
+const PLANE_HEIGHT = 1.5;
+const GAP = 0.05;
+
+const ITEM_WIDTH = PLANE_WIDTH + GAP;
+const TOTAL_WIDTH = images.length * ITEM_WIDTH;
 
 function Meshes() {
     const textures = useTexture(images.map(img => img.src)) as THREE.Texture[];
     const materialsRef = useRef<(THREE.ShaderMaterial | null)[]>([]);
-    const groupRef      = useRef<THREE.Group>(null!);
+    const meshesRef = useRef<(THREE.Mesh | null)[]>([]);
 
     const { scrollX, targetX, velocity } = useScroll();
 
@@ -58,9 +61,13 @@ function Meshes() {
         // eslint-disable-next-line react-hooks/immutability
         velocity.current = diff;
 
-        if (groupRef.current) {
-            groupRef.current.position.x = scrollX.current * 0.005;
-        }
+        meshesRef.current.forEach((mesh, index) => {
+            if (mesh) {
+                const basePosition = index * ITEM_WIDTH;
+                const currentX = basePosition + (scrollX.current * 0.005);
+                mesh.position.x = ((currentX + TOTAL_WIDTH / 2) % TOTAL_WIDTH + TOTAL_WIDTH) % TOTAL_WIDTH - TOTAL_WIDTH / 2;
+            }
+        });
 
         materialsRef.current.forEach((mat) => {
             if (mat) {
@@ -74,11 +81,11 @@ function Meshes() {
     });
 
     return (
-        <group ref={groupRef}>
+        <group>
             {textures.map((_, index) => (
                 <mesh
                     key={index}
-                    position={[index * (PLANE_WIDTH + GAP) - 6, 0, 0]}
+                    ref={(el) => (meshesRef.current[index] = el)}
                 >
                     <planeGeometry args={[PLANE_WIDTH, PLANE_HEIGHT, 30, 30]} />
                     <shaderMaterial
