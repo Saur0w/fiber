@@ -1,16 +1,10 @@
 .landing {
-  height: 200dvh;
+  height: 100dvh;
   width: 100vw;
   background: #f7f7f7;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   .canvasContainer {
-    flex: 1;
     height: 100%;
     width: 100%;
     background: #f1efe7;
-    position: relative;
   }
 }

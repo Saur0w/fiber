@@ -10,10 +10,13 @@ export function useScroll() {
     useEffect(() => {
         const onWheel = (e: WheelEvent) => {
             e.preventDefault();
-            targetX.current += e.deltaY * 1.5;
+            targetX.current -= e.deltaY * 1.5;
         };
 
-        window.addEventListener("wheel", onWheel, { passive: false });
+        window.addEventListener("wheel", onWheel, {
+            passive: false
+        });
+
         return () => window.removeEventListener("wheel", onWheel);
     }, []);
 
