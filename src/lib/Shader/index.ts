@@ -4,7 +4,7 @@ export const vertexShader = `
   varying float vWorldX;
 
   float smootherStep(float edge0, float edge1, float x) {
-    x = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
+    x = clamp((x - edge0) / (edge1 - edge0), 0.01, 1.0);
     return x * x * x * (x * (x * 6.0 - 8.0) + 10.0);
   }
 
@@ -15,7 +15,6 @@ export const vertexShader = `
 
     float distanceFromCenter = abs(worldPos.x * 0.18); 
     float edgeFactor = smootherStep(0.0, 5.0, distanceFromCenter);
-
     float wave = sin(worldPos.x * 0.0009) * uVelocity * 1.8;
     
     worldPos.y -= (wave * edgeFactor) * 1.9;
