@@ -33,9 +33,9 @@ const images: ImageProps[] = [
 
 ];
 
-const PLANE_WIDTH = 2;
-const PLANE_HEIGHT = 1.5;
-const GAP = 0.09;
+const PLANE_WIDTH = 2.5;
+const PLANE_HEIGHT = 1.8;
+const GAP = 0.05;
 
 const ITEM_WIDTH = PLANE_WIDTH + GAP;
 const TOTAL_WIDTH = images.length * ITEM_WIDTH;
@@ -54,10 +54,10 @@ function Meshes() {
         }));
     }, [textures]);
 
-    useFrame(() => {
+    useFrame((state, delta) => {
         const diff = targetX.current - scrollX.current;
         // eslint-disable-next-line react-hooks/immutability
-        scrollX.current += diff * 0.1;
+        scrollX.current = THREE.MathUtils.damp(scrollX.current, targetX.current, 30, delta);
         // eslint-disable-next-line react-hooks/immutability
         velocity.current = diff;
 
@@ -71,10 +71,11 @@ function Meshes() {
 
         materialsRef.current.forEach((mat) => {
             if (mat) {
-                mat.uniforms.uVelocity.value = THREE.MathUtils.lerp(
+                mat.uniforms.uVelocity.value = THREE.MathUtils.damp(
                     mat.uniforms.uVelocity.value,
                     velocity.current,
-                    0.1
+                    5,
+                    delta
                 );
             }
         });
