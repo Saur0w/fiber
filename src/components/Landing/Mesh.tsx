@@ -33,8 +33,8 @@ const images: ImageProps[] = [
 
 ];
 
-const PLANE_WIDTH = 2.5;
-const PLANE_HEIGHT = 1.8;
+const PLANE_WIDTH = 4;
+const PLANE_HEIGHT = 3;
 const GAP = 0.05;
 
 const ITEM_WIDTH = PLANE_WIDTH + GAP;
@@ -87,6 +87,8 @@ function Meshes() {
                 <mesh
                     key={index}
                     ref={(el) => (meshesRef.current[index] = el)}
+                    onPointerOver={() => (document.body.style.cursor = "pointer")}
+                    onPointerOut={() => (document.body.style.cursor = "default")}
                 >
                     <planeGeometry args={[PLANE_WIDTH, PLANE_HEIGHT, 30, 30]} />
                     <shaderMaterial
